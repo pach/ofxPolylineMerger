@@ -19,7 +19,7 @@ ofxPolylineMerger::~ofxPolylineMerger(){
 
 
 void ofxPolylineMerger::setup() {
-    nbPoints = 100;
+    nbPoints = 200;
 }
 
 void ofxPolylineMerger::update() {
@@ -27,6 +27,8 @@ void ofxPolylineMerger::update() {
 }
 
 void ofxPolylineMerger::draw() {
+    poly1.draw();
+    poly2.draw();
     polyOut.draw();
 }
 
@@ -39,6 +41,7 @@ void ofxPolylineMerger::setPoly1(ofPolyline &p1){
     while (poly1.size()<nbPoints) {
         poly1.addVertex(poly1[poly1.size()-1]);
     }
+    cout<<"setting poly 1 of size "<<p1.size()<<endl;
 }
 
 void ofxPolylineMerger::setPoly2(ofPolyline &p2){
@@ -46,26 +49,27 @@ void ofxPolylineMerger::setPoly2(ofPolyline &p2){
     while (poly2.size()<nbPoints) {
         poly2.addVertex(poly2[poly2.size()-1]);
     }
+    cout<<"setting poly 2 of size "<<p2.size()<<endl;
 }
 
 void ofxPolylineMerger::mergePolyline(float interpolationCoeff){
     polyOut.clear();
     
-    ofPoint pt1;
-    ofPoint pt2;
     ofPoint ptOut;
     
+    cout<<"start lerp ";
     for (int i=0; i<nbPoints; i++) {
-        pt1 = poly1[i];
-        pt2 = poly2[i];
-        
-        ptOut.x = ofLerp(pt1.x, pt2.x, interpolationCoeff);
-        ptOut.y = ofLerp(pt1.y, pt2.y, interpolationCoeff);
+        ptOut.x = ofLerp(poly1[i].x, poly2[i].x, interpolationCoeff);
+        ptOut.y = ofLerp(poly1[i].y, poly2[i].y, interpolationCoeff);
         
         polyOut.addVertex(ptOut);
+        cout<<" -- in1 "<<poly1[i]<<" . in2 "<<poly2[i]<<" . out "<<ptOut<<endl;
     }
+    cout<<endl;
     
-    polyOut.simplify();
+    cout<<"merging poly p1 "<<poly1.size()<<" and p2 "<<poly2.size()<<" to make "<<polyOut.size()<<" at coeff "<<interpolationCoeff<<endl;
+    
+//    polyOut.simplify();
 
 }
 

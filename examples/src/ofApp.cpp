@@ -20,7 +20,7 @@ void ofApp::generatePolyline(){
     float noiseSeed= ofGetElapsedTimef();
     
     for (int i=0; i<nbPoints; i++) {
-        p = ofPoint(ofNoise(i*0.05+noiseSeed, 0)*ofGetWidth(), ofNoise(i*0.05+noiseSeed, 1)*ofGetHeight());
+        p = ofPoint(ofNoise(i*0.05+noiseSeed, 0), ofNoise(i*0.05+noiseSeed, 1));
         p1.addVertex(p);
     }
     
@@ -28,7 +28,7 @@ void ofApp::generatePolyline(){
     noiseSeed= ofGetElapsedTimeMillis();
     
     for (int i=0; i<nbPoints; i++) {
-        p = ofPoint(ofNoise(i*0.05+noiseSeed, 0)*ofGetWidth(), ofNoise(i*0.05+noiseSeed, 1)*ofGetHeight());
+        p = ofPoint(ofNoise(i*0.05+noiseSeed, 0), ofNoise(i*0.05+noiseSeed, 1));
         p2.addVertex(p);
     }
     
@@ -56,6 +56,9 @@ void ofApp::update(){
 void ofApp::draw(){
     ofClear(100);
     
+    ofPushMatrix();
+    ofScale(ofGetWidth(), ofGetHeight());
+    
     ofSetColor(255, 0, 0);
     p1.draw();
     
@@ -63,7 +66,9 @@ void ofApp::draw(){
     p2.draw();
     
     ofSetColor(0, 0, 255);
-    pMerge.draw();
+    pMerge.getPolyline().draw();
+    
+    ofPopMatrix();
     
     ofSetColor(255, 255, 255);
     ofDrawBitmapString("fps : "+ofToString(ofGetFrameRate()), 20, ofGetHeight()-60);

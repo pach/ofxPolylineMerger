@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxPolylineMerger.h";
+#include "ofxPolylineMerger.h"
 
 class ofApp : public ofBaseApp{
 
