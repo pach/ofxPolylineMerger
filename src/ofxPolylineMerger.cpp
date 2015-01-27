@@ -20,6 +20,8 @@ ofxPolylineMerger::~ofxPolylineMerger(){
 
 void ofxPolylineMerger::setup() {
     nbPoints = 200;
+    easingType = ofxTween::easeInOut;
+    clamp = true;
 }
 
 void ofxPolylineMerger::update() {
@@ -67,10 +69,13 @@ void ofxPolylineMerger::mergePolyline(float interpolationCoeff){
     
 //    cout<<"start lerp ";
     for (int i=0; i<nbPoints; i++) {
-        ptOut.x = ofLerp(poly1[i].x, poly2[i].x, interpolationCoeff);
-        ptOut.y = ofLerp(poly1[i].y, poly2[i].y, interpolationCoeff);
-        
+//        ptOut.x = ofLerp(poly1[i].x, poly2[i].x, interpolationCoeff);
+//        ptOut.y = ofLerp(poly1[i].y, poly2[i].y, interpolationCoeff);
+
+        ptOut.x = ofxTween::map(interpolationCoeff, 0., 1., poly1[i].x, poly2[i].x, clamp, easing, easingType);
+        ptOut.y = ofxTween::map(interpolationCoeff, 0., 1., poly1[i].y, poly2[i].y, clamp, easing, easingType);
         polyOut.addVertex(ptOut);
+        
 //        cout<<" -- in1 "<<poly1[i]<<" . in2 "<<poly2[i]<<" . out "<<ptOut<<endl;
     }
 //    cout<<endl;
